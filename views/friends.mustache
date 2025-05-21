@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Мои друзья</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/friends.css">
+</head>
+<body class="friends-page">
+  <div class="background-logo"></div>
+  <h1>👥 Мои друзья</h1>
+  
+  <div class="friends-grid">
+    {{#friends}}
+    <div class="friend-tile">
+      <img src="{{avatar}}" alt="{{personaname}}">
+      <div class="friend-name">{{personaname}}</div>
+      <a href="/chat/{{steamid}}" class="chat-link">💬 Чат</a>
+    </div>
+    {{/friends}}
+  </div>
+
+{{! Убедитесь, что переданы все переменные }}
+  {{#hasPagination}}
+  <div class="pagination">
+    {{#hasPrev}}
+      <a href="/friends?page={{prevPage}}" class="page-link">← Назад</a>
+    {{/hasPrev}}
+    
+    <span class="current-page">Страница {{currentPage}} из {{totalPages}}</span>
+    
+    {{#hasNext}}
+      <a href="/friends?page={{nextPage}}" class="page-link">Вперёд →</a>
+    {{/hasNext}}
+  </div>
+  <div class="pagination-info">
+    Показано {{friends.length}} из {{total}} друзей
+  </div>
+  {{/hasPagination}}
+
+  <div style="text-align: center; margin-bottom: 30px;">
+    <a href="/chat" class="back-button">Обновить список</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!-- views/chat.mustache -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Приватный чат с {{friend.personaname}}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/chat.css">
+</head>
+<body>
+  <div class="particles"></div>
+  <div class="chat-container">
+    <!-- Левая панель -->
+    <div class="sidebar">
+      <div class="user-profile" id="steam-user-info">
+        <p class="logged-in-as">Вы вошли как:</p>
+        <p class="username">{{user.personaname}</p>}
+        <img src="{{user.avatar}}" alt="Аватар" class="user-avatar">
+      </div>
+      <nav class="nav-menu">
+        <a href="/friends" class="nav-link">👥 Друзья</a>
+        <a href="/profile/{{user.steamId}}" class="nav-link">👤 Мой профиль</a>
+        <a href="/logout" class="nav-link exit">🚪 Выход</a>
+      </nav>
+    </div>
+
+    <!-- Основной чат -->
+    <div class="main-chat">
+      <header class="chat-header">
+        <div class="friend-info">
+          <img src="{{friend.avatar}}" alt="Аватар" class="friend-avatar">
+          <h1>{{friend.personaname}}</h1>
+          <a href="/profile/{{friend.steamid}}" class="profile-link">Профиль</a>
+        </div>
+      </header>
+
+      <div class="chat-messages">
+        <ul id="messages">
+          {{#messages}}
+          <li class="message">
+            <img src="{{steamAvatar}}" class="message-avatar">
+            <div class="message-content">
+              <div class="message-header">
+                <span class="sender">{{steamName}}</span>
+                <span class="time">{{timestamp}}</span>
+              </div>
+              <p class="message-text">{{text}}</p>
+            </div>
+            <div class="message-actions">
+              <button onclick="copyText('${message.text.replace(/'/g, "\\'")}', this)">📋</button>
+            </div>
+          </li>
+          {{/messages}}
+        </ul>
+      </div>
+
+      <div class="message-input-wrapper">
+        <div class="message-input">
+          <div class="input-group">
+            <input type="text" id="message" placeholder="Напишите сообщение..." maxlength="500">
+            <button id="sendMessage" class="send-button">➤ Отправить</button>
+          </div>
+          <div id="typing-indicator"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="notificationSound" src="/sound/beep.wav" preload="auto"></audio>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/chat.js"></script>
+  <script src="/js/particles.js"></script>
+</body>
+</html>

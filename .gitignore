@@ -1,0 +1,12 @@
+# Зависимости
+node_modules/
+
+# Файлы окружения
+.env
+.env.local
+.env.development
+.env.production
+
+# Логи и временные файлы
+*.log
+.tmp/

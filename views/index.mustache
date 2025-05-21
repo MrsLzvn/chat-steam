@@ -1,0 +1,9 @@
+<h1>Добро пожаловать!</h1>
+<nav>
+    <a href="/chat">Чат</a> |  
+    <a href="/search">Поиск пользователей</a> |  
+    {{#user.steamId}}
+    <a href="/profile/{{user.steamId}}">Мой профиль</a>
+    {{/user.steamId}}
+</nav>
+

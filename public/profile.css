@@ -1,0 +1,93 @@
+/* Общие стили профиля */
+body {
+    margin: 0;
+    padding: 40px 20px;
+    font-family: 'Exo 2', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(270deg, #1b2838, #2a475e, #1b2838);
+    background-size: 600% 600%;
+    animation: gradientFlow 20s ease infinite;
+    color: #fff;
+    min-height: 100vh;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 100%; }
+    50% { background-position: 200% 100%; }
+    100% { background-position: 0% 100%; }
+}
+
+.background-logo {
+    background: url("/images/steam-logo.png") no-repeat center center;
+    background-size: 70%;
+    opacity: 0.1;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+}
+
+.profile-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: rgba(42, 71, 94, 0.95);
+    border-radius: 15px;
+    padding: 30px 20px;
+    box-shadow: 0 0 20px black;
+    position: relative;
+    text-align: center;
+}
+
+img.avatar {
+    border-radius: 15%;
+    width: 110px;
+    height: 110px;
+    margin-bottom: 15px;
+    box-shadow: 0 0 8px rgba(102, 192, 244, 0.4);
+}
+
+h1 {
+    font-size: 26px;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+a {
+    color: #66c0f4;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #a3d2f4;
+    text-decoration: underline;
+}
+
+.status {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.profile-container p {
+    margin: 10px 0;
+    font-size: 15px;
+}
+
+#backToChatBtn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #66c0f4;
+    color: #1b2838;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+#backToChatBtn:hover {
+    background-color: #417a9b;
+    color: #fff;
+}

@@ -1,0 +1,190 @@
+/* Общие стили для страницы друзей */
+body.friends-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 20px;
+    background: linear-gradient(270deg, #1b2838, #2a475e, #1b2838);
+    font-family: 'Exo 2', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-size: 600% 600%;
+    animation: gradientFlow 20s ease infinite;
+    color: #fff;
+    min-height: 100vh;
+    z-index: -2;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 100%; }
+    50% { background-position: 200% 100%; }
+    100% { background-position: 0% 100%; }
+}
+
+.background-logo {
+    background: url("/images/steam-logo.png") no-repeat center center;
+    background-size: 70%;
+    opacity: 0.1;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+}
+
+body.friends-page h1 {
+    text-align: center;
+    font-size: 32px;
+    color: #66c0f4;
+    margin-bottom: 20px;
+}
+
+/* Сетка друзей */
+.friends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* Плитка друга */
+.friend-tile {
+    background-color: rgba(27, 40, 56, 0.85);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(102, 192, 244, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.friend-tile:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 15px rgba(102, 192, 244, 0.3);
+}
+
+.friend-tile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+div.friend-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.chat-link {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #66c0f4;
+    color: #1b2838;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.chat-link:hover {
+    background-color: #417a9b;
+    color: #fff
+}
+
+/* Пагинация */
+.pagination {
+    text-align: center;
+    margin-bottom: 10px 0 20px;
+    font-size: 1em;
+    color: #ccc;
+}
+
+.page-link {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 6px 12px;
+    background-color: #66c0f4;
+    color: #1b2838;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.page-link:hover {
+    background-color: #417a9b;
+    color: #fff
+}
+
+.current-page {
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 15px;
+    color: #ccc;
+}
+
+.pagination-info {
+    text-align: center;
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+/* Кнопка "назад" */
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #444c57;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #555;
+}
+
+
+/* Мобильная адаптация */
+@media (max-width: 600px) {
+  .friends-grid {
+    grid-template-columns: 1fr; /* Одна плитка в ряд */
+    padding: 10px;
+  }
+
+  .friend-tile {
+    height: auto;
+    padding: 20px 10px;
+  }
+
+  .friend-tile img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 8px;
+  }
+
+  .chat-link {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  div.friend-name {
+    font-size: 14px;
+  }
+}
