@@ -44,7 +44,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// Настройка шаблонизатора Mustache
+// Настройка шаблонизатора Mustach
 app.engine('mustache', mustacheExpress());
 app.set('view engine', 'mustache');
 app.set('views', path.join(__dirname, 'views'));
@@ -54,7 +54,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'keyboard cat',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // важно при HTTP
+  cookie: { secure: false }
 }));
 
 app.use(passport.initialize());
