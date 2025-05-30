@@ -62,9 +62,9 @@ app.use(passport.session());
 
 //  Конфигурация Steam-авторизации с обработкой ошибок
 passport.use(new SteamStrategy({
-  returnURL: process.env.STEAM_RETURN_URL,
-  realm: process.env.STEAM_REALM,
-  apiKey: process.env.STEAM_API_KEY
+  returnURL: process.env.STEAM_RETURN_URL,
+  realm: process.env.STEAM_REALM,
+  apiKey: process.env.STEAM_API_KEY
 }, async (identifier, profile, done) => {
   try {
     const steamId = profile.id;
