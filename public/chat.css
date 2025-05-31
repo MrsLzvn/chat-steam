@@ -347,6 +347,13 @@ body {
   }
 
   .user-avatar {
+    width: 28px;
+    height: 28px;
+    border-width: 2px;
+  }
+
+  .username,
+  .logged-in-as {
     display: none;
   }
 
