@@ -336,7 +336,7 @@ body {
 
   .sidebar {
     min-width: 100%;
-    height: auto;
+    height: 70px;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
@@ -346,10 +346,13 @@ body {
     flex-wrap: wrap;
   }
 
+  .username, .logged-in-as {
+    display: none; /* скрываем текст в мобильной версии */
+  }
 
   .user-avatar {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
   }
 
   .main-chat {
