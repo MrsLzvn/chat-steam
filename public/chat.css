@@ -110,6 +110,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 .chat-header {
@@ -153,6 +154,7 @@ body {
   padding: 20px;
   scrollbar-width: thin;
   scrollbar-color: #66c0f4 #1b2838;
+  min-height: 0;
 }
 
 .chat-messages::-webkit-scrollbar {
@@ -234,6 +236,7 @@ body {
   border-top: 1px solid #1b2838;
   background-color: #2a475e;
   padding: 12px 20px;
+  flex-shrink: 0;
 }
 
 .input-group {
@@ -322,104 +325,70 @@ body {
   100% { opacity: 0; transform: translateY(-5px); }
 }
 
-/* Планшеты (768px - 1024px) */
-@media (max-width: 1024px) {
+/* 📱 Мобильные устройства (до 600px) */
+@media (max-width: 600px) {
   .chat-container {
     flex-direction: column;
-    width: 95%;
-    height: 95vh;
-    margin: auto;
+    height: 100vh;
+    margin: 0;
+    border-radius: 0;
   }
 
   .sidebar {
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
     min-width: 100%;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
     padding: 10px;
     border-right: none;
     border-bottom: 1px solid #1b2838;
+    flex-wrap: wrap;
   }
+
 
   .user-avatar {
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
   }
 
-  .nav-menu {
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .nav-link, .nav-button {
-    margin-bottom: 0;
-    font-size: 12px;
-    padding: 8px 10px;
-  }
-}
-
-/* Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
-  .chat-container {
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-    border-radius: 0;
-    margin: 0;
-  }
-
-  .sidebar {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 8px;
-    min-width: 100%;
-  }
-
-  .user-avatar {
-    width: 60px;
-    height: 60px;
-  }
-
-  .nav-menu {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .nav-link, .nav-button {
-    font-size: 10px;
-    padding: 6px 8px;
-    margin-bottom: 0;
-  }
-
-  .chat-messages {
-    padding: 10px;
+  .main-chat {
+    flex: 1;
+    height: 100%;
   }
 
   .message-content {
-    max-width: 85%;
-    font-size: 13px;
+    max-width: 90%;
   }
 
-  #message {
-    font-size: 13px;
-    padding: 8px;
+  .input-group {
+    flex-direction: column;
   }
 
   .send-button {
-    font-size: 12px;
-    padding: 8px 10px;
+    width: 100%;
+  }
+}
+
+/* 📱 Планшеты (от 601px до 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .chat-container {
+    flex-direction: row;
+    height: 95vh;
+    margin: 2.5vh auto;
   }
 
-  .friend-info h1 {
-    font-size: 16px;
+  .sidebar {
+    min-width: 180px;
+    padding: 15px;
   }
 
-  .friend-avatar {
-    width: 40px;
-    height: 40px;
+  .user-avatar {
+    width: 120px;
+    height: 120px;
+  }
+
+  .message-content {
+    max-width: 80%;
   }
 }
