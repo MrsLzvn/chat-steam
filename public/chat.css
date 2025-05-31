@@ -347,7 +347,7 @@ body {
   }
 
   .user-avatar {
-    display: none;
+    display: none !important;
   }
 
   .username,
