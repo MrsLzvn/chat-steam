@@ -347,14 +347,18 @@ body {
   }
 
   .user-avatar {
-    width: 28px;
-    height: 28px;
-    border-width: 2px;
+    display: none; /* скрываем аватар */
   }
 
-  .username,
+  .username {
+    display: block; /* показываем ник */
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+  }
+
   .logged-in-as {
-    display: none;
+    display: none; /* можно не показывать вспомогательный текст */
   }
 
   .nav-menu {
