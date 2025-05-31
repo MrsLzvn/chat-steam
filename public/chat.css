@@ -345,8 +345,8 @@ body {
     overflow-x: auto;
     gap: 10px;
   }
-
-  .user-avatar {
+    
+  #steam-user-info {
     display: none !important;
   }
 
