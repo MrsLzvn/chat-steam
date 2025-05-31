@@ -346,9 +346,9 @@ body {
     gap: 10px;
   }
     
-  #steam-user-info {
+  /*#steam-user-info {
     display: none !important;
-  }
+  }*/
 
   .username,
   .logged-in-as {
