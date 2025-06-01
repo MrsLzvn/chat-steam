@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (elements.steamUserInfo) {
         elements.steamUserInfo.innerHTML = `
           <p>Вы вошли как: <strong>${steamUser.personaname}</strong></p>
-          <img src="${steamUser.avatar}" alt="Avatar" width="100" height="100" style="border-radius:50%;">
+          <img src="${steamUser.avatar}" alt="Аватар" class="user-avatar">
         `;
       }
 

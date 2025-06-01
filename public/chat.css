@@ -241,7 +241,9 @@ body {
 
 .input-group {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
 }
 
 #message {
@@ -346,9 +348,9 @@ body {
     gap: 10px;
   }
     
-  /*#steam-user-info {
+  .user-avatar {
     display: none !important;
-  }*/
+  }
 
   .username,
   .logged-in-as {
@@ -406,6 +408,7 @@ body {
 
   .input-group {
     flex-direction: column;
+    display: flex;
   }
 
   .send-button {
