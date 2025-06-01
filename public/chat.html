@@ -6,6 +6,40 @@
   <title>Steam Чат</title>
   <link rel="stylesheet" href="/chat.css">
 </head>
+
+<style>
+  .input-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 12px 20px;
+  background-color: #2a475e;
+  border-top: 1px solid #1b2838;
+}
+
+#message {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: #1b2838;
+  color: #c7d5e0;
+}
+
+#sendMessage {
+  padding: 10px 16px;
+  background-color: #66c0f4;
+  border: none;
+  border-radius: 8px;
+  color: #1b2838;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+</style>
+
 <body>
   <div class="particles"></div>
   <audio id="notificationSound">
@@ -33,13 +67,9 @@
     <h1 id="chatTitle">Steam Чат</h1>
     <div id="chat">
       <ul id="messages"></ul>
-      <div class="message-input-wrapper">
-        <div class="message-input">
-          <div class="input-group">
-            <input id="message" type="text" placeholder="Введите сообщение..." maxlength="500" />
-            <button class="send-button" id="sendMessage">➤</button>
-          </div>
-        </div>
+      <div class="input-container">
+        <input id="message" type="text" placeholder="Введите сообщение..." maxlength="500" />
+        <button id="sendMessage">➤</button>
       </div>
     </div>    
     <div id="typing-indicator" style="height: 20px; color: #ccc;"></div>

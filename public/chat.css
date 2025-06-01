@@ -232,6 +232,16 @@ body {
 }
 
 /* Поле ввода */
+
+.input-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  padding: 12px 20px;
+  background-color: #2a475e;
+  border-top: 1px solid #1b2838;
+}
+
 .message-input-wrapper {
   border-top: 1px solid #1b2838;
   background-color: #2a475e;
@@ -261,6 +271,17 @@ body {
   outline: none;
   background-color: #1b2838;
   color: #c7d5e0;
+}
+
+#sendMessage {
+  padding: 10px 16px;
+  background-color: #66c0f4;
+  border: none;
+  border-radius: 8px;
+  color: #1b2838;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .send-button {
@@ -420,6 +441,16 @@ body {
   }
 
   .send-button {
+    width: 100%;
+  }
+
+  .input-container {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  #sendMessage {
     width: 100%;
   }
 }
