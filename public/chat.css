@@ -239,15 +239,11 @@ body {
   flex-shrink: 0;
 }
 
-.message-input {
-  width: 100%;
-}
-
 .input-group {
   display: flex;
   flex-direction: row;
-  gap: 5px;
-  padding: 10px;
+  align-items: center;
+  gap: 10px;
 }
 
 #message {
@@ -270,6 +266,8 @@ body {
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
+  height: auto;
+  white-space: nowrap;
 }
 
 .send-button:hover {
