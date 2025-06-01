@@ -407,18 +407,16 @@ body {
     max-width: 85%;
   }
 
-  .input-group {
-    flex-direction: column;
-    display: flex;
+  #message {
+  flex: 1;
+  min-width: 0;
   }
 
-  #message {
-  width: 100%;
-  box-sizing: border-box;
-}
-
   .send-button {
-  width: 100%;
-  margin-top: 8px;
-}
+  flex-shrink: 0;
+  width: auto;
+  white-space: nowrap;
+  padding: 10px 12px;
+  font-size: 14px;
+  }
 }
