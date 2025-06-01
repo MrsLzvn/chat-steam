@@ -335,6 +335,11 @@ body {
     height: 100vh;
     margin: 0;
     border-radius: 0;
+    overflow: hidden;
+  }
+
+  .message-input-wrapper {
+    padding: 10px 15px;
   }
 
   .sidebar {
@@ -373,9 +378,9 @@ body {
 
   .main-chat {
     flex: 1;
-    height: calc(100vh - 50px);
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
   .chat-header {
@@ -400,23 +405,34 @@ body {
   }
 
   .chat-messages {
-    padding: 10px;
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
   }
 
   .message-content {
     max-width: 85%;
   }
 
-  #message {
-  flex: 1;
-  min-width: 0;
+  .input-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
   }
 
-  .send-button {
-  flex-shrink: 0;
-  width: auto;
-  white-space: nowrap;
-  padding: 10px 12px;
-  font-size: 14px;
+  #message {
+    flex: 1;       
+    min-width: 0;     
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  #sendMessage {
+    flex-shrink: 0;    
+    padding: 10px 14px;
+    font-size: 14px;
+    white-space: nowrap;
+    cursor: pointer;
   }
 }
