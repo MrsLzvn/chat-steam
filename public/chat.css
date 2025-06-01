@@ -239,16 +239,20 @@ body {
   flex-shrink: 0;
 }
 
+.message-input {
+  width: 100%;
+}
+
 .input-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 5px;
   padding: 10px;
 }
 
 #message {
   flex: 1;
-  padding: 10px 14px;
+  padding: 10px;
   font-size: 14px;
   border: none;
   border-radius: 8px;
