@@ -33,10 +33,15 @@
     <h1 id="chatTitle">Steam Чат</h1>
     <div id="chat">
       <ul id="messages"></ul>
-      <div class="input-container">
-        <input id="message" type="text" placeholder="Введите сообщение..." maxlength="500" />
-        <button id="sendMessage">➤</button>
+      <div class="message-input-wrapper">
+        <div class="message-input">
+          <div class="input-group">
+            <input id="message" type="text" placeholder="Введите сообщение..." maxlength="500" />
+            <button class="send-button" id="sendMessage">➤</button>
+          </div>
+        </div>
       </div>
+
     </div>    
     <div id="typing-indicator" style="height: 20px; color: #ccc;"></div>
   </div>
