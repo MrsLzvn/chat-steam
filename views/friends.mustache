@@ -12,15 +12,23 @@
   
   <div class="friends-grid">
     {{#friends}}
-    <div class="friend-tile">
-      <img src="{{avatar}}" alt="{{personaname}}">
+    <div class="friend-tile {{statusClass}}">
+      <a href="/profile/{{steamid}}" title="Перейти в профиль">
+        <img src="{{avatar}}" alt="{{personaname}}" style="cursor: pointer;">
+      </a>
+
+
       <div class="friend-name">{{personaname}}</div>
+ 
+      {{#inGame}}
+        <div class="friend-game">🎮 {{game}}</div>
+      {{/inGame}}
+
       <a href="/chat/{{steamid}}" class="chat-link">💬 Чат</a>
     </div>
     {{/friends}}
   </div>
 
-{{! Убедитесь, что переданы все переменные }}
   {{#hasPagination}}
   <div class="pagination">
     {{#hasPrev}}

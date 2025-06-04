@@ -91,3 +91,21 @@ a:hover {
     background-color: #417a9b;
     color: #fff;
 }
+
+/* ДОБАВЛЕНО подсветка */
+
+.profile-container.status-online {
+    border: 3px solid #00ccff;
+    box-shadow: 0 0 15px #00ccff;
+  }
+  
+  .profile-container.status-ingame {
+    border: 3px solid #00ff88;
+    box-shadow: 0 0 15px #00ff88;
+  }
+  
+  .profile-container.status-offline {
+    border: 3px solid #777;
+    box-shadow: 0 0 10px #555;
+  }
+  

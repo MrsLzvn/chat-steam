@@ -1,43 +1,66 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Профиль Steam — {{user.personaname}}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/profile.css">
+  <meta charset="UTF-8">
+  <title>Профиль Steam — {{user.personaname}}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/profile.css">
 </head>
 <body>
-    <div class="background-logo"></div>
-    <div class="profile-container">
-        <button id="backToChatBtn">⬅ Назад в чат</button>
+  <div class="background-logo"></div>
+  <div class="profile-container {{user.statusClass}}">
+    <button id="backToChatBtn">⬅ Назад</button>
 
-        <img src="{{user.avatarfull}}" alt="Avatar" class="avatar">
-        <h1>{{user.personaname}}</h1>
-        <p><a href="{{user.profileurl}}" target="_blank" rel="noopener noreferrer">Открыть в Steam</a></p>
-        <p class="status">
-            Статус:
-            {{#isOnline}}🟢 Онлайн{{/isOnline}}
-            {{^isOnline}}⚫ Оффлайн{{/isOnline}}
-        </p>
-        <p>Последний раз в сети: {{user.lastOnline}}</p>
-        <p>Steam ID: {{user.steamid}}</p>
-    </div>
+    <img src="{{user.avatarfull}}" alt="Avatar" class="avatar">
+    <h1>{{user.personaname}}</h1>
+    <p><a href="{{user.profileurl}}" target="_blank" rel="noopener noreferrer">Открыть в Steam</a></p>
 
-    <script>
-        const backBtn = document.getElementById('backToChatBtn');
-        const previousChatPath = sessionStorage.getItem('previousChatPath');
+    <p class="status">Статус: {{user.statusLabel}}</p>
 
-        if (previousChatPath) {
-            backBtn.onclick = () => {
-                sessionStorage.removeItem('previousChatPath');
-                window.location.href = previousChatPath;
-            };
-        } else {
-            // если некуда возвращаться — по умолчанию идём в общий чат
-            backBtn.onclick = () => {
-                window.location.href = '/chat';
-            };
-        }
-    </script>
+    <p>Steam ID: {{user.steamid}}</p>
+
+    <hr>
+
+    <h2>Игры (топ 10)</h2>
+    {{#user.games.length}}
+      <ul>
+        {{#user.games}}
+        <li>
+          <img src="{{icon}}" alt="{{name}}" style="width:24px;height:24px;vertical-align:middle;margin-right:6px;">
+          <a href="{{url}}" target="_blank" style="color:lightblue">{{name}}</a> — {{playtime}} ч.
+        </li>
+        {{/user.games}}
+      </ul>
+    {{/user.games.length}}
+
+    {{^user.games.length}}
+      <p>⚠ Игры скрыты настройками приватности или недоступны через Steam API.</p>
+    {{/user.games.length}}
+
+    <hr>
+
+    <h2>Баны</h2>
+    <ul>
+      <li>VAC-баны: {{user.bans.NumberOfVACBans}}</li>
+      <li>Игровые баны: {{user.bans.NumberOfGameBans}}</li>
+      <li>Последний бан: {{user.bans.DaysSinceLastBan}} дней назад</li>
+    </ul>
+  </div>
+
+  <script>
+    const backBtn = document.getElementById('backToChatBtn');
+    const previousChatPath = sessionStorage.getItem('previousChatPath');
+
+    if (previousChatPath) {
+      backBtn.onclick = () => {
+        sessionStorage.removeItem('previousChatPath');
+        window.location.href = previousChatPath;
+      };
+    } else {
+      backBtn.onclick = () => {
+        window.location.href = '/chat';
+      };
+    }
+  </script>
 </body>
 </html>

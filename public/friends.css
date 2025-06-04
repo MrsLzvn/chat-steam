@@ -188,3 +188,36 @@ div.friend-name {
     font-size: 14px;
   }
 }
+
+/* ДОБАВЛЕНО статус */
+
+.friend-tile {
+    border: 3px solid transparent;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  /* Цвета по статусу */
+  .friend-tile.ingame {
+    border-color: #00ff88;
+    box-shadow: 0 0 12px #00ff88;
+  }
+  
+  .friend-tile.online {
+    border-color: #00ccff;
+    box-shadow: 0 0 12px #00ccff;
+  }
+  
+  .friend-tile.offline {
+    border-color: #777;
+    box-shadow: 0 0 8px #555;
+  }
+  
+  .friend-game {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #88ffcc;
+  }
+  
