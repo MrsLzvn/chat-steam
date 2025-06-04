@@ -44,27 +44,32 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// Настройка шаблонизатора Mustach
+// Настройка шаблонизатора Mustache
 app.engine('mustache', mustacheExpress());
 app.set('view engine', 'mustache');
 app.set('views', path.join(__dirname, 'views'));
+app.set('trust proxy', 1); // 🔐 Render — это прокси, чтобы Express знал про HTTPS
 
 // Настройка сессий
 app.use(session({
   secret: process.env.SESSION_SECRET || 'keyboard cat',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false }
+  cookie: {
+    secure: true,       // 🔐 куки только по HTTPS
+    sameSite: 'lax'     // 🛡️ защита от CSRF, без ломания логина
+  }
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 //  Конфигурация Steam-авторизации с обработкой ошибок
 passport.use(new SteamStrategy({
-  returnURL: process.env.STEAM_RETURN_URL,
-  realm: process.env.STEAM_REALM,
-  apiKey: process.env.STEAM_API_KEY
+  returnURL: process.env.STEAM_RETURN_URL,
+  realm: process.env.STEAM_REALM,
+  apiKey: process.env.STEAM_API_KEY
 }, async (identifier, profile, done) => {
   try {
     const steamId = profile.id;
@@ -214,38 +219,87 @@ app.get('/profile/:steamId', async (req, res) => {
   const steamId = req.params.steamId;
 
   try {
-      const apiKey = process.env.STEAM_API_KEY;
-      const response = await fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamId}`);
-      const data = await response.json();
-      const player = data.response.players[0];
+    const [summaryRes, bansRes, gamesRes] = await Promise.all([
+      axios.get('https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/', {
+        params: { key: STEAM_API_KEY, steamids: steamId }
+      }),
+      axios.get('https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/', {
+        params: { key: STEAM_API_KEY, steamids: steamId }
+      }),
+      axios.get('https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/', {
+        params: {
+          key: STEAM_API_KEY,
+          steamid: steamId,
+          include_appinfo: true,
+          include_played_free_games: true
+        }
+      })
+    ]);
 
-      const user = {
-          steamid: player.steamid,
-          personaname: player.personaname,
-          profileurl: player.profileurl,
-          avatar: player.avatarfull,
-          avatarfull: player.avatarfull,
-          lastOnline: moment.unix(player.lastlogoff).fromNow(),
-          isOnline: player.personastate > 0 // 0 = offline
-      };
+    const player = summaryRes.data.response.players[0];
+    const banInfo = bansRes.data.players[0];
+    const allGames = gamesRes.data.response?.games || [];
 
-      res.render('profile', { user });
+    const sortedGames = allGames
+      .filter(g => g.playtime_forever > 0)
+      .sort((a, b) => b.playtime_forever - a.playtime_forever)
+      .slice(0, 10)
+      .map(game => ({
+        name: game.name,
+        playtime: (game.playtime_forever / 60).toFixed(1),
+        icon: `https://cdn.cloudflare.steamstatic.com/steam/apps/${game.appid}/capsule_184x69.jpg`,
+        url: `https://store.steampowered.com/app/${game.appid}`
+      }));
+
+    const personastate = player.personastate || 0;
+    const isOnline = personastate > 0;
+    const isInGame = !!player.gameextrainfo;
+
+    const statusLabel = isInGame
+      ? `🎮 В игре (${player.gameextrainfo})`
+      : isOnline
+      ? '🟢 Онлайн'
+      : '⚫ Оффлайн';
+
+    let statusClass = 'status-offline';
+    if (isInGame) statusClass = 'status-ingame';
+    else if (isOnline) statusClass = 'status-online';
+
+    const lastOnline = player.lastlogoff
+      ? moment.unix(player.lastlogoff).fromNow()
+      : 'Неизвестно';
+
+    const user = {
+      steamid: player.steamid,
+      personaname: player.personaname,
+      profileurl: player.profileurl,
+      avatar: player.avatarfull,
+      avatarfull: player.avatarfull,
+      lastOnline,
+      isOnline,
+      statusLabel,
+      statusClass,
+      bans: banInfo,
+      games: sortedGames
+    };
+
+    res.render('profile', { user });
   } catch (err) {
-      console.error(err);
-      res.status(500).send('Ошибка загрузки профиля Steam');
+    console.error('❌ Ошибка загрузки профиля Steam:', err.message);
+    res.status(500).send('Ошибка загрузки профиля Steam');
   }
 });
+
+
 
 const NodeCache = require('node-cache');
 const friendsCache = new NodeCache({ stdTTL: 300 }); // Кэш на 5 минут
 
 async function getFriends(steamId) {
-  // Проверка кэша
   const cached = friendsCache.get(steamId);
   if (cached) return cached;
 
   try {
-    // Получение списка друзей
     const friendListResponse = await axios.get(
       'https://api.steampowered.com/ISteamUser/GetFriendList/v1/',
       {
@@ -257,17 +311,14 @@ async function getFriends(steamId) {
       }
     );
 
-    // Извлечение SteamID друзей
     const friendIds = friendListResponse.data.friendslist.friends.map(f => f.steamid);
 
-    // Разбиение на чанки по 100 SteamID
     const chunkSize = 100;
     const profileChunks = [];
-    
+
     for (let i = 0; i < friendIds.length; i += chunkSize) {
       const chunk = friendIds.slice(i, i + chunkSize).join(',');
-      
-      // Запрос данных профилей для чанка
+
       const profileResponse = await axios.get(
         'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/',
         {
@@ -277,24 +328,39 @@ async function getFriends(steamId) {
           }
         }
       );
-      
+
       profileChunks.push(...profileResponse.data.response.players);
     }
 
-    // Фильтрация и преобразование данных
     const friendsList = profileChunks
-      .filter(p => p?.steamid && p?.personaname) // Валидация профилей
-      .map(p => ({
-        steamid: p.steamid,
-        personaname: p.personaname,
-        avatar: p.avatarfull,
-        profileurl: p.profileurl,
-        online: p.personastate > 0
-      }));
+      .filter(p => p?.steamid && p?.personaname)
+      .map(p => {
+        const isInGame = p.gameextrainfo !== undefined;
+        const isOnline = p.personastate > 0;
 
-    // Сохранение в кэш
+        let statusClass = 'offline';
+        if (isInGame) statusClass = 'ingame';
+        else if (isOnline) statusClass = 'online';
+
+        return {
+          steamid: p.steamid,
+          personaname: p.personaname,
+          avatar: p.avatarfull,
+          profileurl: p.profileurl,
+          online: isOnline,
+          inGame: isInGame,
+          game: p.gameextrainfo || null,
+          statusClass
+        };
+      });
+
+    // ✅ Сортировка: в игре → онлайн → оффлайн
+    friendsList.sort((a, b) => {
+      const statusScore = (f) => f.inGame ? 2 : f.online ? 1 : 0;
+      return statusScore(b) - statusScore(a);
+    });
+
     friendsCache.set(steamId, friendsList);
-    
     return friendsList;
 
   } catch (error) {
@@ -303,8 +369,8 @@ async function getFriends(steamId) {
   }
 }
 
+
 // Маршрут со страницами друзей
-// server.js (исправленный фрагмент)
 app.get('/friends', async (req, res) => {
   if (!req.isAuthenticated()) return res.redirect('/');
 
@@ -313,18 +379,16 @@ app.get('/friends', async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const perPage = 12;
 
+    // Получаем уже отсортированных друзей по статусу (в игре → онлайн → оффлайн)
     const friendsList = await getFriends(steamId);
-    const sortedFriends = [...friendsList].sort((a, b) => 
-      a.steamid.localeCompare(b.steamid)
-    );
 
-    const total = sortedFriends.length;
+    const total = friendsList.length;
     const totalPages = Math.ceil(total / perPage);
     const startIndex = (page - 1) * perPage;
     const endIndex = startIndex + perPage;
 
     res.render('friends', {
-      friends: sortedFriends.slice(startIndex, endIndex),
+      friends: friendsList.slice(startIndex, endIndex), // ❗ не переопределяем сортировку
       currentPage: page,
       totalPages: totalPages,
       total: total,
@@ -340,6 +404,7 @@ app.get('/friends', async (req, res) => {
     res.status(500).send('Ошибка загрузки страницы');
   }
 });
+
 
 
 // 🚪 Выход из аккаунта
@@ -374,6 +439,17 @@ app.get('/chat/:friendId', async (req, res) => {
   try {
     const friendId = req.params.friendId;
     const friend = await getSteamProfile(friendId);
+
+    const isOnline = friend.personastate > 0;
+    const isInGame = !!friend.gameextrainfo;
+
+    let statusClass = 'status-offline';
+    if (isInGame) statusClass = 'status-ingame';
+    else if (isOnline) statusClass = 'status-online';
+
+    friend.statusClass = statusClass;
+
+
     const roomId = [user.steamId, friendId].sort().join('_');
     const messages = await Message.find({ roomId }).sort({ timestamp: 1 });
 

@@ -18,6 +18,33 @@ function showCopiedIndicator(targetElement) {
   }, 1500);
 }
 
+// Функция для проверки, находится ли пользователь внизу чата
+function isBelowHalf(element) {
+  if (!element) return false;
+  const visibleBottom = element.scrollTop + element.clientHeight;
+  const halfway = element.scrollHeight / 2;
+  return visibleBottom >= halfway;
+}
+
+
+// Функция для плавной прокрутки вниз
+function scrollToBottom(element) {
+  if (element) {
+    element.scrollTo({
+      top: element.scrollHeight,
+      behavior: 'smooth'
+    });
+  }
+}
+
+function scrollToBottom(element) {
+  if (element) {
+    console.log('[scroll] Скроллим вниз!');
+    element.scrollTop = element.scrollHeight;
+  }
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
   const socket = io();
   const elements = {
@@ -25,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     profileStatus: document.getElementById('profileStatus'),
     sendMessageButton: document.getElementById('sendMessage'),
     messageInput: document.getElementById('message'),
-    messagesList: document.getElementById('messages'),
+    messagesList: document.querySelector('.chat-messages'),
     profileLink: document.getElementById('profile-link'),
     profileWarning: document.getElementById('profile-warning'),
     chatTitle: document.getElementById('chatTitle'),
@@ -36,8 +63,33 @@ document.addEventListener('DOMContentLoaded', () => {
     friendName: document.getElementById('friend-name'),
     friendProfileLink: document.getElementById('friend-profile-link'),
     notificationSound: document.getElementById('notificationSound'),
-    typingIndicator: document.getElementById('typing-indicator')
+    typingIndicator: document.getElementById('typing-indicator'),
+    scrollToBottomBtn: document.getElementById('scrollToBottomBtn'),
+
   };
+
+  const emojiList = [..."😀😁😂🤣😃😄😅😆😉😊😋😎😍😘🥰😗😙😚🙂🤗🤩🤔🤨😐😑😶🙄😏😣😥😮‍💨😮😯😪😫🥱😴😌😛😜😝🤤😒😓😔😕🙃🤑😲😷🤒🤕🤢🤮🤧🥵🥶😵‍💫😵🥴😠😡🤬😤😭😢😥😓🤯😳🥺😬😰😱😖😞😟😤😩😨😧😦😿😾🙀😸😹😻😼😽👋🤚🖐✋🖖👌🤏✌️🤞🤟🤘🤙👈👉👆👇☝️👍👎✊👊🤛🤜👏🙌👐🤲🙏✍️💅🤳💪🦾🦿🦵🦶👂👃🧠🦷🦴👀👁️👅👄💋❤️🧡💛💚💙💜🖤🤍🤎💔❣️💕💞💓💗💖💘💝💟🔞🎮🎲🎯🏆⚽🏀🏈⚾🎾🏐🥎🏓🏸🥅⛳🥇🥈🥉🎮"]; // Можешь добавить ещё
+
+  const emojiPicker = document.getElementById('emojiPicker');
+  const toggleEmojiPickerBtn = document.getElementById('toggleEmojiPicker');
+
+// Переключение видимости панели смайлов
+  toggleEmojiPickerBtn.addEventListener('click', () => {
+    emojiPicker.style.display = emojiPicker.style.display === 'none' ? 'block' : 'none';
+  });
+
+  const messageInput = document.getElementById('message');
+
+  // Отрисуем смайлы
+  emojiList.forEach(emoji => {
+    const span = document.createElement('span');
+    span.textContent = emoji;
+    span.addEventListener('click', () => {
+      messageInput.value += emoji;
+      messageInput.focus();
+    });
+    emojiPicker.appendChild(span);
+  });
 
   const urlParts = window.location.pathname.split('/');
   const friendId = urlParts.length > 2 ? urlParts[2] : null;
@@ -130,12 +182,23 @@ document.addEventListener('DOMContentLoaded', () => {
   socket.on('message', (msg) => {
     if (elements.notificationSound) elements.notificationSound.play().catch(() => {});
     addMessage(msg);
+  
+    // ⬇ Автопрокрутка через requestAnimationFrame — точно прокрутит после отрисовки
+    requestAnimationFrame(() => {
+      if (isBelowHalf(elements.messagesList)) {
+        scrollToBottom(elements.messagesList);
+      }
+    });
+    
   });
+  
 
   socket.on('chatHistory', (msgs) => {
     if (elements.messagesList) {
       elements.messagesList.innerHTML = '';
       msgs.forEach(addMessage);
+      // При загрузке истории чата всегда прокручиваем вниз
+      scrollToBottom(elements.messagesList);
     }
   });
 
@@ -160,77 +223,86 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function addMessage(message) {
-  if (!elements.messagesList) return;
+    if (!elements.messagesList) return;
 
-  const li = document.createElement('li');
-  li.className = 'message';
+    const li = document.createElement('li');
+    li.className = 'message';
 
-  li.innerHTML = `
-    <img src="${message.steamAvatar}" class="message-avatar">
-    <div class="message-content">
-      <div class="message-header clickable-area" data-steamid="${message.steamId}">
-        <span class="sender">${message.steamName}</span>
-        <span class="time">${message.timestamp}</span>
+    li.innerHTML = `
+      <img src="${message.steamAvatar}" class="message-avatar">
+      <div class="message-content">
+        <div class="message-header clickable-area" data-steamid="${message.steamId}">
+          <span class="sender">${message.steamName}</span>
+          <span class="time">${message.timestamp}</span>
+        </div>
+        <p class="message-text">${message.text}</p>
       </div>
-      <p class="message-text">${message.text}</p>
-    </div>
-    <div class="message-actions">
-      <button onclick="copyText('${message.text.replace(/'/g, "\\'")}', this)">📋</button>
-    </div>
-  `;
+      <div class="message-actions">
+        <button onclick="copyText('${message.text.replace(/'/g, "\\'")}', this)">📋</button>
+      </div>
+    `;
 
-  // обработчик клика на отправителя
-  const clickableArea = li.querySelector('.clickable-area');
-  if (clickableArea) {
-    clickableArea.addEventListener('click', async (e) => {
-      const steamId = e.currentTarget.dataset.steamid;
-      if (steamId === steamUser.steamId) return;
+    // обработчик клика на отправителя
+    const clickableArea = li.querySelector('.clickable-area');
+    if (clickableArea) {
+      clickableArea.addEventListener('click', async (e) => {
+        const steamId = e.currentTarget.dataset.steamid;
+        if (steamId === steamUser.steamId) return;
 
-      try {
-        const response = await fetch(/api/is-friend/$,{steamId});
-        const { isFriend } = await response.json();
-        showContextMenu(e.clientX, e.clientY, steamId, isFriend);
-      } catch (err) {
-        console.error('Ошибка:', err);
-        showContextMenu(e.clientX, e.clientY, steamId, false);
-      }
-    });
-  }
-
-  elements.messagesList.appendChild(li);
-
-  elements.messagesList.scrollTo({
-    top: elements.messagesList.scrollHeight,
-    behavior: 'smooth'
-  });
-}
-
-  fetch('/api/friends')
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById('friendListContainer');
-    if (!container) return;
-
-    container.innerHTML = '';
-
-    if (Array.isArray(data.friends)) {
-      data.forEach(friend => {
-        const el = document.createElement('div');
-        el.style.textAlign = 'center';
-        el.style.marginBottom = '10px';
-        el.innerHTML = `
-          <img src="${friend.avatar}" width="40" height="40" style="border-radius:50%;"><br>
-          <span>${friend.personaname}</span><br>
-          <button onclick="openPrivateChat('${friend.steamid}')">💬 Чат</button><br>
-          <button class="friend-profile" data-id="${friend.steamid}">👤 Профиль</button>
-        `;
-        container.appendChild(el);
+        try {
+          const response = await fetch(/api/is-friend/$,{steamId});
+          const { isFriend } = await response.json();
+          showContextMenu(e.clientX, e.clientY, steamId, isFriend);
+        } catch (err) {
+          console.error('Ошибка:', err);
+          showContextMenu(e.clientX, e.clientY, steamId, false);
+        }
       });
     }
-  })
-  .catch(err => {
-    console.error('Ошибка загрузки друзей:', err);
-  });
+
+    elements.scrollToBottomBtn.addEventListener('click', () => {
+      scrollToBottom(elements.messagesList);
+    });
+    
+
+    elements.messagesList.appendChild(li);
+    elements.messagesList.addEventListener('scroll', () => {
+      const el = elements.messagesList;
+      if (!isBelowHalf(el)) {
+        elements.scrollToBottomBtn.classList.add('show');
+      } else {
+        elements.scrollToBottomBtn.classList.remove('show');
+      }
+    });
+    
+  }
+
+  fetch('/api/friends')
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('friendListContainer');
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      if (Array.isArray(data.friends)) {
+        data.forEach(friend => {
+          const el = document.createElement('div');
+          el.style.textAlign = 'center';
+          el.style.marginBottom = '10px';
+          el.innerHTML = `
+            <img src="${friend.avatar}" width="40" height="40" style="border-radius:50%;"><br>
+            <span>${friend.personaname}</span><br>
+            <button onclick="openPrivateChat('${friend.steamid}')">💬 Чат</button><br>
+            <button class="friend-profile" data-id="${friend.steamid}">👤 Профиль</button>
+          `;
+          container.appendChild(el);
+        });
+      }
+    })
+    .catch(err => {
+      console.error('Ошибка загрузки друзей:', err);
+    });
 
   function openPrivateChat(friendSteamID) {
     window.location.href = `/chat/${friendSteamID}`;
@@ -255,6 +327,12 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.profileLink.addEventListener('click', savePreviousChatPathOnce);
   }
 
+  document.addEventListener('click', (e) => {
+    if (!emojiPicker.contains(e.target) && e.target !== toggleEmojiPickerBtn) {
+      emojiPicker.style.display = 'none';
+    }
+  });
+  
   document.addEventListener('click', function(e) {
     if (e.target.classList.contains('friend-profile')) {
       savePreviousChatPathOnce();
@@ -281,5 +359,10 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.emit('sendMessage', text);
     }
     elements.messageInput.value = '';
+    
+    // Прокручиваем вниз после отправки сообщения
+    setTimeout(() => {
+      scrollToBottom(elements.messagesList);
+    }, 100);
   }
 });

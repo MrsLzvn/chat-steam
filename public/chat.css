@@ -1,70 +1,71 @@
 /* Общие стили чата */
 body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: row;
-  min-height: 100vh;
-  overflow: hidden;
-  background: linear-gradient(270deg, #1b2838, #2a475e, #1b2838);
-  color: #dfe6ed;
-  font-family: 'Exo 2', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(270deg, #1b2838, #2a475e, #1b2838);
+    color: #dfe6ed;
+    font-family: 'Exo 2', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .chat-container {
-  display: flex;
-  max-width: 1200px;
-  height: 90vh;
-  margin: 5vh auto;
-  background: rgba(26, 40, 56, 0.95);
-  border-radius: 16px;
-  box-shadow: 0 0 20px black;
-  overflow: hidden;
+    display: flex;
+    max-width: 1200px;
+    height: 90vh;
+    margin: 5vh auto;
+    background: rgba(26, 40, 56, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 0 20px black;
+    overflow: hidden;
 }
 
 /* Левая панель */
 .sidebar {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 20px;
-  gap: 20px;
-  box-sizing: border-box;
-  background-color: #2a475e;
-  min-width: 220px;
-  border-right: 1px solid #1b2838;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    gap: 20px;
+    box-sizing: border-box;
+    background-color: #2a475e;
+    min-width: 220px;
+    border-right: 1px solid #1b2838;
 }
 
 .user-avatar {
-  border: 3px solid #66c0f4;
-  object-fit: cover;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  width: 200px;
-  height: 200px;
+    border: 3px solid #66c0f4;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    width: 200px;
+    height: 200px;
 }
 
 .logged-in-as {
-  font-size: 12px;
-  color: #a3b5c0;
-  margin: 0;
-  text-align: center;
+    font-size: 12px;
+    color: #a3b5c0;
+    margin: 0;
+    text-align: center;
 }
 
 .username {
-  font-size: 14px;
-  font-weight: bold;
-  color: #ffffff;
-  margin-bottom: 10px;
-  text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .user-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0;
 }
 
 .nav-menu {
@@ -76,32 +77,32 @@ body {
 }
 
 .nav-link {
-  display: block;
-  padding: 10px;
-  text-align: center;
-  margin-bottom: 20px;
-  background: #66c0f4;
-  border-radius: 8px;
-  color: #1b2838;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: background-color 0.3s;
+    display: block;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    background: #66c0f4;
+    border-radius: 8px;
+    color: #1b2838;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
 }
 
 .nav-link.exit {
-  background: #222222;
-  color: #fff;
+    background: #222222;
+    color: #fff;
 }
 
 .nav-link:hover {
-  background: #417a9b;
-  color: #fff;
+    background: #417a9b;
+    color: #fff
 }
 
 .nav-link.exit:hover {
-  background: #383838;
-  color: #fff;
+    background: #383838;
+    color: #fff;
 }
 
 /* Основной чат */
@@ -205,12 +206,6 @@ body {
   font-size: 12px
 }
 
-.message-text {
-  font-size: 14px;
-  margin: 0;
-  white-space: pre-wrap;
-}
-
 .message-actions {
   display: none;
   position: absolute;
@@ -228,6 +223,12 @@ body {
   border: none;
   cursor: pointer;
   font-size: 16px;
+}
+
+.message-text {
+  font-size: 14px;
+  margin: 0;
+  white-space: pre-wrap;
 }
 
 /* Поле ввода */
@@ -274,12 +275,12 @@ body {
   color: #fff;
 }
 
-/* Индикатор печати 
+/* Индикатор печати */
 #typing-indicator {
   margin-top: 5px;
   color: #a3b5c0;
   font-size: 12px;
-} */
+}
 
 /* === Частицы === */
 .particles {
@@ -436,113 +437,109 @@ body {
   }
 }
 
-/* Планшет (от 601 до 900px) */
-@media (min-width: 601px) and (max-width: 900px) {
-  .chat-container {
-    flex-direction: column;
-    height: 100vh;
-    margin: 0;
-    border-radius: 0;
-    overflow: hidden;
-  }
+/* ДОБАВЛЕНО эмодзи */
 
-  .message-input-wrapper {
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
-    background-color: #2a475e;
-    border-radius: 12px;
-    padding: 10px 15px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    z-index: 1000;
-  }
+.emoji-picker {
+  background-color: #2a475e;
+  color: white;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #1b2838;
+  font-size: 22px;
+  user-select: none;
+  margin-top: 6px;
+}
 
-  .input-group {
-    display: flex;
-    gap: 8px;
-  }
+.emoji-picker-category {
+  margin-top: 10px;
+}
 
-  .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    min-height: 0;
-    padding-bottom: 130px; /* место под фиксированное поле ввода */
-  }
+.emoji-picker-category-title {
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #66c0f4;
+}
 
-  .sidebar {
-    width: 100%;
-    height: 50px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px 10px;
-    border-bottom: 1px solid #1b2838;
-    overflow-x: auto;
-    gap: 10px;
-  }
+.emoji-picker span {
+  cursor: pointer;
+  padding: 4px;
+  margin: 2px;
+  display: inline-block;
+  transition: transform 0.1s;
+}
 
-  .user-avatar {
-    display: none !important;
-  }
+.emoji-picker span:hover {
+  transform: scale(1.3);
+}
 
-  .username,
-  .logged-in-as {
-    display: none;
-  }
+#emojiSearch {
+  width: 100%;
+  padding: 5px 8px;
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
 
-  .nav-menu {
-    flex-direction: row;
-    gap: 8px;
-    padding: 0;
-    width: auto;
-  }
 
-  .nav-link {
-    padding: 6px 10px;
-    font-size: 12px;
-    margin: 0;
-  }
+.emoji-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  .main-chat {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+#toggleEmojiPicker {
+  font-size: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
 
-  .chat-header {
-    padding: 8px 12px;
-  }
+#toggleEmojiPicker:hover {
+  transform: scale(1.2);
+}
 
-  .friend-info {
-    gap: 10px;
-  }
+.message-input-wrapper {
+  border-top: 1px solid #1b2838;
+  background-color: #2a475e;
+  padding: 12px 20px;
+}
 
-  .friend-avatar {
-    width: 36px;
-    height: 36px;
-  }
+#scrollToBottomBtn {
+  position: fixed;
+  bottom: 80px;
+  right: 40px;
+  background-color: #66c0f4;
+  color: #1b2838;
+  border: none;
+  border-radius: 50%;
+  font-size: 22px;
+  padding: 10px 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
 
-  .friend-info h1 {
-    font-size: 16px;
-  }
+#scrollToBottomBtn.show {
+  opacity: 1;
+  pointer-events: auto;
+}
 
-  .profile-link {
-    font-size: 12px;
-  }
+.status-online {
+  box-shadow: 0 0 6px 2px rgba(102, 192, 244, 0.6); /* голубой */
+}
 
-  .message-content {
-    max-width: 85%;
-  }
+.status-ingame {
+  box-shadow: 0 0 6px 2px rgba(102, 244, 192, 0.6); /* зелёный */
+}
 
-  #message {
-    flex: 1;
-    width: auto;
-  }
-
-  .send-button {
-    width: auto;
-    min-width: 80px;
-  }
+.status-offline {
+  box-shadow: 0 0 6px 2px rgba(128, 128, 128, 0.3); /* серый */
 }

@@ -29,7 +29,7 @@
     <div class="main-chat">
       <header class="chat-header">
         <div class="friend-info">
-          <img src="{{friend.avatar}}" alt="Аватар" class="friend-avatar">
+          <img src="{{friend.avatar}}" alt="Аватар" class="friend-avatar {{friend.statusClass}}" title="{{friend.statusLabel}}">
           <h1>{{friend.personaname}}</h1>
           <a href="/profile/{{friend.steamid}}" class="profile-link">Профиль</a>
         </div>
@@ -57,11 +57,16 @@
 
       <div class="message-input-wrapper">
           <div class="input-group">
+            <button id="toggleEmojiPicker" title="Смайлы">😊</button>
             <input type="text" id="message" placeholder="Напишите сообщение..." maxlength="500">
             <button id="sendMessage" class="send-button">➤ Отправить</button>
           </div>
+          <div class="emoji-picker" id="emojiPicker" style="display: none;">
+            <!-- Смайлы подгрузим через JS -->
+          </div>
           <div id="typing-indicator"></div>
       </div>
+      <button id="scrollToBottomBtn" title="Прокрутить вниз">⬇</button>
     </div>
   </div>
 
