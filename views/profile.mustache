@@ -23,11 +23,14 @@
 
     <h2>Игры (топ 10)</h2>
     {{#user.games.length}}
-      <ul>
+      <ul class="games-grid">
         {{#user.games}}
         <li>
-          <img src="{{icon}}" alt="{{name}}" style="width:24px;height:24px;vertical-align:middle;margin-right:6px;">
-          <a href="{{url}}" target="_blank" style="color:lightblue">{{name}}</a> — {{playtime}} ч.
+          <img src="{{icon}}" alt="{{name}}">
+          <div class="game-info">
+            <a href="{{url}}" target="_blank">{{name}}</a>
+            <span class="hours">{{playtime}} ч.</span>
+          </div>
         </li>
         {{/user.games}}
       </ul>
