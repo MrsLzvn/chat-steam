@@ -64,7 +64,6 @@ body.friends-page h1 {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
 }
 
 .friend-tile:hover {
