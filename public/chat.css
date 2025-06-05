@@ -428,7 +428,7 @@ body {
     touch-action: auto;
     scrollbar-width: auto !important;
     min-height: 0;
-    padding-bottom: 100px;
+    padding-bottom: 140px;
   }
 
   .chat-messages::-webkit-scrollbar {
@@ -466,12 +466,6 @@ body {
 
   #sendMessage {
     flex-shrink: 0;
-  }
-
-  #messages::after {
-    content: '';
-    display: block;
-    height: 100px; /* подстраивай под высоту нижней панели */
   }
 }
 
