@@ -41,8 +41,8 @@ body.friends-page h1 {
 /* Сетка друзей */
 .friends-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
     max-width: 1000px;
     margin: 0 auto 40px;
     width: 100%;

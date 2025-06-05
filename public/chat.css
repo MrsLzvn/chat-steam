@@ -428,7 +428,7 @@ body {
     touch-action: auto;
     scrollbar-width: auto !important;
     min-height: 0;
-    padding-bottom: 140px;
+    padding-bottom: 115px; /* расстояние от сообщения до поля ввода */
   }
 
   .chat-messages::-webkit-scrollbar {
