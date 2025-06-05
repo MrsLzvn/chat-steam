@@ -14,7 +14,6 @@ body {
 .chat-container {
     display: flex;
     max-width: 1200px;
-    min-width: 800px;
     height: 90vh;
     margin: 5vh auto;
     background: rgba(26, 40, 56, 0.95);
@@ -114,7 +113,6 @@ body {
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  min-width: 600px;
 }
 
 .chat-header {
@@ -334,6 +332,22 @@ body {
   0% { opacity: 0; transform: translateY(10px); }
   10%, 90% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(-5px); }
+}
+
+/* Минимальные размеры — только для экранов от 801px и больше */
+@media (min-width: 801px) {
+  .chat-container {
+    min-width: 800px;
+    height: 90vh;
+  }
+
+  .main-chat {
+    min-width: 600px;
+  }
+  
+  .sidebar {
+    min-width: 220px;
+  }
 }
 
 /* Мобильные устройства (до 600px) */
