@@ -13,11 +13,9 @@ body {
 
 .chat-container {
     display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 100%;
+    max-width: 1200px;
+    min-width: 800px;
     height: 90vh;
-    box-sizing: border-box;
     margin: 5vh auto;
     background: rgba(26, 40, 56, 0.95);
     border-radius: 16px;
@@ -116,7 +114,7 @@ body {
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  min-width: 1200px;
+  min-width: 600px;
 }
 
 .chat-header {
@@ -242,7 +240,6 @@ body {
 
 /* Поле ввода */
 .message-input-wrapper {
-  display: flex;
   border-top: 1px solid #1b2838;
   background-color: #2a475e;
   padding: 12px 20px;
