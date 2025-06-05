@@ -41,8 +41,8 @@ body.friends-page h1 {
 /* Сетка друзей */
 .friends-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
     max-width: 1000px;
     margin: 0 auto 40px;
     width: 100%;
@@ -160,12 +160,29 @@ div.friend-name {
   background-color: #555;
 }
 
+/* ПК — 5 колонок */
+@media (min-width: 601px) {
+  .friends-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto 40px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+}
 
 /* Мобильная адаптация */
 @media (max-width: 600px) {
   .friends-grid {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
     padding: 10px;
+    max-width: 100%;
+    margin: 0 auto 30px;
   }
 
   .friend-tile {

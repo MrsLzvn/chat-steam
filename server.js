@@ -377,7 +377,7 @@ app.get('/friends', async (req, res) => {
   try {
     const steamId = req.user.steamId;
     const page = parseInt(req.query.page) || 1;
-    const perPage = 12;
+    const perPage = 10;
 
     // Получаем уже отсортированных друзей по статусу (в игре → онлайн → оффлайн)
     const friendsList = await getFriends(steamId);
