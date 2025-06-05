@@ -6,7 +6,7 @@ body.friends-page {
     justify-content: flex-start;
     min-height: 100vh;
     margin: 0;
-    padding: 20px 10px;
+    padding: 20px 20px;
     background: linear-gradient(270deg, #1b2838, #2a475e, #1b2838);
     font-family: 'Exo 2', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-size: 600% 600%;
@@ -43,7 +43,7 @@ body.friends-page h1 {
     display: grid;
     gap: 20px;
     max-width: 1100px;
-    margin: 0 auto 40px;
+    margin: 0 auto 10px;
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
@@ -103,7 +103,7 @@ div.friend-name {
 /* Пагинация */
 .pagination {
     text-align: center;
-    margin-bottom: 10px;
+    margin: 0 0 10px;
     font-size: 1em;
     color: #ccc;
 }
