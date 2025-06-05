@@ -109,3 +109,45 @@ a:hover {
     box-shadow: 0 0 10px #555;
   }
   
+/* Список игр */
+/* Стилизация списка игр */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  background-color: rgba(27, 40, 56, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.3s;
+}
+
+ul li:hover {
+  background-color: rgba(102, 192, 244, 0.1);
+}
+
+ul li img {
+  flex-shrink: 0;
+  margin-right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 5px;
+}
+
+ul li a {
+  flex-grow: 1;
+  text-align: left;
+}
+
+ul li span {
+  color: #ccc;
+  font-size: 14px;
+  white-space: nowrap;
+}
