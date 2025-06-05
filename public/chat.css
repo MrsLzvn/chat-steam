@@ -14,7 +14,7 @@ body {
 .chat-container {
     display: flex;
     max-width: 1200px;
-    min-width: 800px;
+    min-width: 1200px;
     height: 90vh;
     margin: 5vh auto;
     background: rgba(26, 40, 56, 0.95);
@@ -114,7 +114,7 @@ body {
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  min-width: 600px;
+  min-width: 1200px;
 }
 
 .chat-header {
@@ -155,7 +155,6 @@ body {
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 20px 20px 15px 20px;
   scrollbar-width: thin;
   scrollbar-color: #66c0f4 #1b2838;
   min-height: 200px;
