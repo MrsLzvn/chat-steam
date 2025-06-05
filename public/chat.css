@@ -111,6 +111,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  overflow: hidden;
 }
 
 .chat-header {
@@ -173,6 +174,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  flex: 1 1 auto;
+  overflow: visible;
 }
 
 .message {
@@ -180,6 +183,8 @@ body {
   gap: 10px;
   align-items: flex-start;
   position: relative;
+  margin-bottom: 10px;
+  flex-shrink: 0;
 }
 
 .message-avatar {
@@ -405,10 +410,10 @@ body {
     flex: 1;
     overflow-y: auto;
     min-height: 0;
-    padding-bottom: 130px;
+    padding-bottom: 80px;
   }
 
-  /* Новое: фиксируем поле ввода с кнопкой */
+  /* фиксируем поле ввода с кнопкой */
   .message-input-wrapper {
     position: fixed;
     bottom: 10px;
@@ -450,6 +455,10 @@ body {
   font-size: 22px;
   user-select: none;
   margin-top: 6px;
+  position: absolute;
+  bottom: 60px; /* или чуть выше, в зависимости от высоты input-а */
+  right: 20px;
+  z-index: 1001;
 }
 
 .emoji-picker-category {
@@ -507,6 +516,7 @@ body {
   border-top: 1px solid #1b2838;
   background-color: #2a475e;
   padding: 12px 20px;
+  position: relative;
 }
 
 #scrollToBottomBtn {
