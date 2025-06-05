@@ -467,6 +467,12 @@ body {
   #sendMessage {
     flex-shrink: 0;
   }
+
+  #messages::after {
+    content: '';
+    display: block;
+    height: 100px; /* подстраивай под высоту нижней панели */
+  }
 }
 
 /* ДОБАВЛЕНО эмодзи */
