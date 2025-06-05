@@ -41,15 +41,24 @@ body.friends-page h1 {
 /* Сетка друзей */
 .friends-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 180px);
     gap: 20px;
     max-width: 1000px;
-    margin: 0 auto 40px;
+    margin: 0 auto 20px;
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
-    flex: 1;
-    overflow-y: auto;
+
+    height: calc(180px * 3 + 20px * 2); /* 3 плитки по высоте + 2 промежутка */
+}
+
+body.friends-page {
+    overflow-y: hidden;
+}
+
+body.friends-page h1 {
+    margin-bottom: 10px;
 }
 
 /* Плитка друга */
@@ -106,7 +115,7 @@ div.friend-name {
 /* Пагинация */
 .pagination {
     text-align: center;
-    margin-bottom: 10px 0 20px;
+    margin-bottom: 10px;
     font-size: 1em;
     color: #ccc;
 }
@@ -154,6 +163,7 @@ div.friend-name {
     border-radius: 8px;
     font-weight: bold;
     transition: background-color 0.3s;
+    margin-bottom: 10px;
 }
 
 .back-button:hover {
@@ -162,9 +172,12 @@ div.friend-name {
 
 
 /* Мобильная адаптация */
-@media (max-width: 599px) {
+@media (max-width: 600px) {
   .friends-grid {
     grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    height: auto; /* чтобы высота подстраивалась */
+    gap: 15px;
     padding: 10px;
   }
 
@@ -186,6 +199,10 @@ div.friend-name {
 
   .friend-name {
     font-size: 14px;
+  }
+
+  body.friends-page {
+    overflow-y: auto;
   }
 }
 
