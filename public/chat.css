@@ -410,8 +410,19 @@ body {
   .chat-messages {
     flex: 1;
     overflow-y: auto;
+    touch-action: auto;
+    scrollbar-width: auto !important;
     min-height: 0;
     padding-bottom: 80px;
+  }
+
+  .chat-messages::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  .chat-messages::-webkit-scrollbar-thumb {
+    background-color: rgba(102, 192, 244, 0.7);
+    border-radius: 6px;
   }
 
   /* фиксируем поле ввода с кнопкой */

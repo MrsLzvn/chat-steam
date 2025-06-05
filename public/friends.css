@@ -162,9 +162,9 @@ div.friend-name {
 
 
 /* Мобильная адаптация */
-@media (max-width: 600px) {
+@media (max-width: 599px) {
   .friends-grid {
-    grid-template-columns: 1fr; /* Одна плитка в ряд */
+    grid-template-columns: repeat(2, 1fr);
     padding: 10px;
   }
 
@@ -184,7 +184,7 @@ div.friend-name {
     padding: 5px 10px;
   }
 
-  div.friend-name {
+  .friend-name {
     font-size: 14px;
   }
 }
