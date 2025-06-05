@@ -155,7 +155,7 @@ body {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #66c0f4 #1b2838;
-  min-height: 200px;
+  /*min-height: 200px;*/
 }
 
 .chat-messages::-webkit-scrollbar {
