@@ -41,15 +41,12 @@ body.friends-page h1 {
 /* Сетка друзей */
 .friends-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto 40px;
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
-    flex: 1;
-    overflow-y: auto;
 }
 
 /* Плитка друга */
@@ -163,14 +160,7 @@ div.friend-name {
 /* ПК — 5 колонок */
 @media (min-width: 601px) {
   .friends-grid {
-    display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-    max-width: 1100px;
-    margin: 0 auto 40px;
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
   }
 }
 
@@ -208,7 +198,7 @@ div.friend-name {
 
 /* ДОБАВЛЕНО статус вапро*/
 
-.friend-tile {
+  .friend-tile {
     border: 3px solid transparent;
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
@@ -238,3 +228,6 @@ div.friend-name {
     color: #88ffcc;
   }
   
+  .friends-grid {
+  outline: 2px dashed red;
+  }
