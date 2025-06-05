@@ -6,7 +6,7 @@ body.friends-page {
     justify-content: flex-start;
     min-height: 100vh;
     margin: 0;
-    padding: 20px 20px;
+    padding: 10px 10px;
     background: linear-gradient(270deg, #1b2838, #2a475e, #1b2838);
     font-family: 'Exo 2', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-size: 600% 600%;
@@ -33,9 +33,10 @@ body.friends-page {
 
 body.friends-page h1 {
     text-align: center;
-    font-size: 32px;
+    font-size: 28px;
     color: #66c0f4;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 /* Сетка друзей */
@@ -110,8 +111,8 @@ div.friend-name {
 
 .page-link {
     display: inline-block;
-    margin: 0 10px;
-    padding: 6px 12px;
+    margin: 0 5px;
+    padding: 5px 10px;
     background-color: #66c0f4;
     color: #1b2838;
     border-radius: 8px;
@@ -127,7 +128,7 @@ div.friend-name {
 
 .current-page {
     display: inline-block;
-    margin: 0 10px;
+    margin: 0 5px;
     font-size: 15px;
     color: #ccc;
 }
@@ -136,8 +137,8 @@ div.friend-name {
     text-align: center;
     color: #aaa;
     font-size: 13px;
-    margin-bottom: 30px;
-    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-top: 5px;
 }
 
 /* Кнопка "назад" */
