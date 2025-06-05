@@ -20,6 +20,7 @@ body {
     border-radius: 16px;
     box-shadow: 0 0 20px black;
     overflow: hidden;
+    padding: 0;
 }
 
 /* Левая панель */
@@ -416,14 +417,14 @@ body {
   /* фиксируем поле ввода с кнопкой */
   .message-input-wrapper {
     position: fixed;
-    bottom: 10px;
+    bottom: 70px;
     left: 10px;
     right: 10px;
     background-color: #2a475e;
     border-radius: 12px;
     padding: 10px 15px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    z-index: 1000;
+    z-index: 1000
   }
 
   /* Поле ввода и кнопка на одной линии */
