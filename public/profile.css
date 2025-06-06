@@ -168,7 +168,6 @@ ul.games-grid li a {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 150px;
-  overflow-wrap: anywhere;
 }
 
 ul.games-grid li a:hover {
@@ -189,11 +188,10 @@ ul.games-grid li .hours {
 
   .profile-container {
     width: 100%;
+    max-width: 100%;
+    padding: 20px 12px;
+    margin: 0 auto;
     box-sizing: border-box;
-    padding: 20px 15px;
-    border-radius: 0;
-    box-shadow: none;
-    margin: 0;
   }
 
   img.avatar {
