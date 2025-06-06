@@ -10,6 +10,11 @@ body {
     min-height: 100vh;
 }
 
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
 @keyframes gradientFlow {
     0% { background-position: 0% 100%; }
     50% { background-position: 200% 100%; }
@@ -26,8 +31,10 @@ body {
 }
 
 .profile-container {
+    width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    box-sizing: border-box;
     background: rgba(42, 71, 94, 0.95);
     border-radius: 15px;
     padding: 30px 20px;
@@ -150,6 +157,7 @@ ul.games-grid li .game-info {
   justify-content: space-between;
   align-items: center;
   gap: 8px;
+  min-width: 0;
 }
 
 ul.games-grid li a {
@@ -160,6 +168,7 @@ ul.games-grid li a {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 150px;
+  overflow-wrap: anywhere;
 }
 
 ul.games-grid li a:hover {
@@ -180,6 +189,7 @@ ul.games-grid li .hours {
 
   .profile-container {
     width: 100%;
+    box-sizing: border-box;
     padding: 20px 15px;
     border-radius: 0;
     box-shadow: none;
