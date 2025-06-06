@@ -32,7 +32,7 @@ html, body {
 
 .profile-container {
     width: 100%;
-    max-width: 600px;
+    max-width: 580px;
     margin: 0 auto;
     box-sizing: border-box;
     background: rgba(42, 71, 94, 0.95);
