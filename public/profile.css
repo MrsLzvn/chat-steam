@@ -172,3 +172,60 @@ ul.games-grid li .hours {
   color: #ccc;
   white-space: nowrap;
 }
+
+@media (max-width: 600px) {
+  body {
+    padding: 20px 10px;
+  }
+
+  .profile-container {
+    width: 100%;
+    padding: 20px 15px;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+  }
+
+  img.avatar {
+    width: 90px;
+    height: 90px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .status {
+    font-size: 14px;
+  }
+
+  #backToChatBtn {
+    font-size: 12px;
+    padding: 6px 12px;
+    top: 10px;
+    left: 10px;
+  }
+
+  ul.games-grid {
+    grid-template-columns: 1fr; /* Один столбец */
+    gap: 10px;
+  }
+
+  ul.games-grid li {
+    padding: 10px 12px;
+  }
+
+  ul.games-grid li .game-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  ul.games-grid li a {
+    max-width: 100%;
+  }
+
+  ul.games-grid li .hours {
+    margin-top: 4px;
+    font-size: 13px;
+  }
+}
