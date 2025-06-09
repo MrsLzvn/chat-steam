@@ -11,6 +11,8 @@ const path = require('path');
 const mustacheExpress = require('mustache-express');
 const axios = require('axios');
 
+const fs = require('fs');
+
 const User = require('./models/User');
 const Message = require('./models/Message');
 
@@ -64,6 +66,11 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use((err, req, res, next) => {
+    console.error('🔥 Ошибка на сервере:', err.stack);
+    res.status(500).send('Что-то пошло не так!');
+});
+
 
 //  Конфигурация Steam-авторизации с обработкой ошибок
 passport.use(new SteamStrategy({
@@ -74,10 +81,15 @@ passport.use(new SteamStrategy({
   try {
     const steamId = profile.id;
     const personaname = profile.displayName;
-    const avatar = profile._json.avatarfull;
+    const avatar = profile.photos[0].value;
     const profileurl = profile._json.profileurl;
 
     console.log(`🟢 Авторизация: ${personaname} (${steamId})`);
+    console.log('🛬 Получен профиль от Steam:', {
+      steamId: profile.id,
+      displayName: profile.displayName
+  });
+  
 
     let user = await User.findOneAndUpdate(
       { steamId: steamId },
@@ -112,6 +124,7 @@ app.get('/auth/steam', passport.authenticate('steam'));
 app.get('/auth/steam/return', passport.authenticate('steam', { failureRedirect: '/' }),
   async (req, res) => {
     try {
+      console.log('✅ Аутентификация прошла успешно. Сессия:', req.session);
       res.redirect('/friends');
     } catch (error) {
       console.error('❌ Ошибка редиректа после Steam авторизации:', error.message);
@@ -141,30 +154,8 @@ app.get('/api/friends', async (req, res) => {
 
   try {
     const steamId = req.user.steamId;
-    const response = await axios.get(`https://api.steampowered.com/ISteamUser/GetFriendList/v1/`, {
-      params: {
-        key: STEAM_API_KEY,
-        steamid: steamId,
-        relationship: 'friend',
-      },
-    });
-
-    const friendIds = response.data.friendslist.friends.map(f => f.steamid).join(',');
-    const profileResponse = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/`, {
-      params: {
-        key: STEAM_API_KEY,
-        steamids: friendIds,
-      },
-    });
-
-    const friends = profileResponse.data.response.players.map(p => ({
-      steamid: p.steamid,
-      personaname: p.personaname,
-      avatar: p.avatarfull,
-      profileurl: p.profileurl,
-      online: p.personastate > 0
-    }));
-    res.json(friends);    
+    const friendsList = await getFriends(steamId); // ⬅ используем готовую функцию
+    res.json(friendsList);
   } catch (err) {
     console.error('❌ Ошибка получения друзей:', err.message);
     res.status(500).json({ error: 'Не удалось загрузить друзей' });
@@ -172,18 +163,58 @@ app.get('/api/friends', async (req, res) => {
 });
 
 
+
 // 🔄 Получение данных из Steam API
+const steamProfileCache = new Map();
+const CACHE_TTL = 60 * 1000; // 60 секунд
+
 async function getSteamProfile(steamId) {
+  const now = Date.now();
+  const cached = steamProfileCache.get(steamId);
+
+  if (cached && now - cached.timestamp < CACHE_TTL) {
+    console.log(`⚡ Кэш Hit: профиль ${steamId} взят из памяти`);
+    return cached.data;
+  }
+
   try {
     const url = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${STEAM_API_KEY}&steamids=${steamId}`;
+    
+    console.log(`🌐 Отправка запроса к Steam API: ${url}`);
     const response = await axios.get(url);
-    const players = response.data.response.players;
-    return players.length > 0 ? players[0] : null;
+
+    console.log(`📡 Статус ответа Steam API: ${response.status}`);
+
+    const players = response.data?.response?.players;
+
+    if (!players || players.length === 0) {
+      console.warn(`⚠️ Профиль Steam ${steamId} не найден или пустой ответ`);
+      return null;
+    }
+
+    const profile = players[0];
+
+    // Сохраняем в кэш
+    steamProfileCache.set(steamId, {
+      data: profile,
+      timestamp: now
+    });
+
+    console.log(`🛬 Получен и закэширован профиль от Steam:`, profile);
+    return profile;
+    
   } catch (error) {
-    console.error('❌ Ошибка получения профиля Steam API:', error.message);
+    if (error.response?.status === 429) {
+      console.error('🚫 Превышен лимит запросов к Steam API (429 Too Many Requests)');
+    } else {
+      console.error('❌ Ошибка получения профиля Steam API:', error.message);
+    }
     return null;
   }
 }
+
+
+
 
 // 👤 Получение текущего пользователя
 app.get('/steam-profile', async (req, res) => {
@@ -200,20 +231,40 @@ app.get('/steam-profile', async (req, res) => {
 
 app.get('/steam-user/:steamId', async (req, res) => {
   const steamId = req.params.steamId;
+  let user = null;
+
   try {
-    const response = await axios.get(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/`, {
+    const response = await axios.get('https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/', {
       params: {
         key: STEAM_API_KEY,
         steamids: steamId,
       },
     });
-    const user = response.data.response.players[0];
-    res.json(user);
+
+    if (
+      response.data &&
+      response.data.response &&
+      response.data.response.players &&
+      response.data.response.players.length > 0
+    ) {
+      user = response.data.response.players[0];
+    } else {
+      console.warn(`⚠️ Steam API вернул пустой список игроков для SteamID ${steamId}`);
+      return res.status(404).json({
+        error: 'Пользователь не найден. Возможно, профиль скрыт или Steam API временно недоступен.'
+      });
+    }
+
   } catch (err) {
-    console.error('Ошибка получения информации о пользователе Steam:', err.message);
-    res.status(500).json({ error: 'Не удалось получить информацию о пользователе Steam' });
+    console.error('❌ Ошибка получения информации о пользователе Steam:', err.message);
+    return res.status(500).json({
+      error: 'Не удалось получить информацию о пользователе Steam. Попробуйте позже.'
+    });
   }
+
+  res.json(user);
 });
+
 
 app.get('/profile/:steamId', async (req, res) => {
   const steamId = req.params.steamId;
@@ -377,7 +428,7 @@ app.get('/friends', async (req, res) => {
   try {
     const steamId = req.user.steamId;
     const page = parseInt(req.query.page) || 1;
-    const perPage = 10;
+    const perPage = 12;
 
     // Получаем уже отсортированных друзей по статусу (в игре → онлайн → оффлайн)
     const friendsList = await getFriends(steamId);
@@ -458,8 +509,14 @@ app.get('/chat/:friendId', async (req, res) => {
       timestamp: moment(msg.timestamp).format('D MMM HH:mm')
     }));
 
+    const fixedUser = {
+      ...req.user,
+      avatarfull: req.user.avatarfull || req.user.avatar?.replace(/\.jpg$/, '_full.jpg')
+    };
+    
+
     res.render('chat', {
-      user: req.user,
+      user: fixedUser,
       friend: friend,
       messages: formattedMessages,
       roomId: roomId,
@@ -472,6 +529,25 @@ app.get('/chat/:friendId', async (req, res) => {
       error: error.message 
     });
   }
+});
+
+app.get('/docs', (req, res) => {
+  const specPath = path.join(__dirname, 'swagger.yaml');
+  const spec = fs.readFileSync(specPath, 'utf8').replace(/'/g, "\\'");
+  
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>API Docs</title>
+        <meta charset="utf-8"/>
+        <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+      </head>
+      <body>
+        <redoc spec='${spec}'></redoc>
+      </body>
+    </html>
+  `);
 });
 
 

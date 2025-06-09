@@ -141,13 +141,13 @@ ul.games-grid li {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  box-shadow: 0 0 6px rgba(102, 192, 244, 0.3); /* неоновый эффект */
+  box-shadow: 0 0 6px rgba(102, 192, 244, 0.6);; /* неоновый эффект */
   transition: box-shadow 0.3s, background-color 0.3s;
 }
 
 ul.games-grid li:hover {
   background-color: rgba(42, 71, 94, 0.8);
-  box-shadow: 0 0 12px rgba(102, 192, 244, 0.5); /* усиление свечения */
+  box-shadow: 0 0 12px rgba(102, 192, 244, 0.816);; /* усиление свечения */
 }
 
 ul.games-grid li img {
