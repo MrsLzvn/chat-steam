@@ -594,7 +594,7 @@ socket.on('sendPrivateMessage', async ({ userId, friendId, message, roomId }) =>
     const messageData = {
       text: message,
       steamName: user.personaname,
-      steamAvatar: user.avatar,
+      steamAvatar: user.avatarfull,
       timestamp: new Date(),
       roomId: finalRoomId
     };
