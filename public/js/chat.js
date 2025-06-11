@@ -341,6 +341,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.getElementById('emojiPicker').style.display = 'none';
+  }
+});
+
   function sendMessageHandler() {
     const text = elements.messageInput.value.trim();
     if (!text) return;
