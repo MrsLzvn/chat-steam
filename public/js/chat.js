@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sendMessageButton: document.getElementById('sendMessage'),
     messageInput: document.getElementById('message'),
     messagesList: document.getElementById('messages'),
+    messagesContainer: document.querySelector('.chat-messages'),
     profileLink: document.getElementById('profile-link'),
     profileWarning: document.getElementById('profile-warning'),
     chatTitle: document.getElementById('chatTitle'),
@@ -158,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (elements.friendInfo) elements.friendInfo.style.display = 'none';
       if (elements.chatTitle) elements.chatTitle.innerText = '🌐 Общий чат';
       elements.backToGlobalBtn.style.display = 'none';
-      if (elements.messagesList) elements.messagesList.innerHTML = '';
+      if (elements.messagesContainer) elements.messagesContainer.innerHTML = '';
       socket.emit('joinChat', steamUser);
     });
   }
@@ -185,8 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
     // ⬇ Автопрокрутка через requestAnimationFrame — точно прокрутит после отрисовки
     requestAnimationFrame(() => {
-      if (isBelowHalf(elements.messagesList)) {
-        scrollToBottom(elements.messagesList);
+      if (isBelowHalf(elements.messagesContainer)) {
+        scrollToBottom(elements.messagesContainer);
       }
     });
     
@@ -194,11 +195,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
 
   socket.on('chatHistory', (msgs) => {
-    if (elements.messagesList) {
-      elements.messagesList.innerHTML = '';
+    if (elements.messagesContainer) {
+      elements.messagesContainer.innerHTML = '';
       msgs.forEach(addMessage);
       // При загрузке истории чата всегда прокручиваем вниз
-      scrollToBottom(elements.messagesList);
+      scrollToBottom(elements.messagesContainer);
     }
   });
 
@@ -223,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function addMessage(message) {
-    if (!elements.messagesList) return;
+    if (!elements.messagesContainer) return;
 
     const li = document.createElement('li');
     li.className = 'message';
@@ -261,13 +262,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     elements.scrollToBottomBtn.addEventListener('click', () => {
-      scrollToBottom(elements.messagesList);
+      scrollToBottom(elements.messagesContainer);
     });
     
 
-    elements.messagesList.appendChild(li);
-    elements.messagesList.addEventListener('scroll', () => {
-      const el = elements.messagesList;
+    elements.messagesContainer.appendChild(li);
+    elements.messagesContainer.addEventListener('scroll', () => {
+      const el = elements.messagesContainer;
       if (!isBelowHalf(el)) {
         elements.scrollToBottomBtn.classList.add('show');
       } else {
@@ -368,7 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Прокручиваем вниз после отправки сообщения
     setTimeout(() => {
-      scrollToBottom(elements.messagesList);
+      scrollToBottom(elements.messagesContainer);
     }, 100);
   }
 });
