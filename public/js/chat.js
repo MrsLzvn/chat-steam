@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     profileStatus: document.getElementById('profileStatus'),
     sendMessageButton: document.getElementById('sendMessage'),
     messageInput: document.getElementById('message'),
-    messagesList: document.querySelector('.chat-messages'),
+    messagesList: document.getElementById('messages'),
     profileLink: document.getElementById('profile-link'),
     profileWarning: document.getElementById('profile-warning'),
     chatTitle: document.getElementById('chatTitle'),
