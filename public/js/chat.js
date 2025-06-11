@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (elements.friendInfo) elements.friendInfo.style.display = 'none';
       if (elements.chatTitle) elements.chatTitle.innerText = '🌐 Общий чат';
       elements.backToGlobalBtn.style.display = 'none';
-      if (elements.messagesContainer) elements.messagesContainer.innerHTML = '';
+      if (elements.messagesList) elements.messagesList.innerHTML = '';
       socket.emit('joinChat', steamUser);
     });
   }
@@ -195,8 +195,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
 
   socket.on('chatHistory', (msgs) => {
-    if (elements.messagesContainer) {
-      elements.messagesContainer.innerHTML = '';
+    if (elements.messagesList) {
+      elements.messagesList.innerHTML = '';
       msgs.forEach(addMessage);
       // При загрузке истории чата всегда прокручиваем вниз
       scrollToBottom(elements.messagesContainer);
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function addMessage(message) {
-    if (!elements.messagesContainer) return;
+    if (!elements.messagesList) return;
 
     const li = document.createElement('li');
     li.className = 'message';
@@ -266,8 +266,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
 
-    elements.messagesContainer.appendChild(li);
-    elements.messagesContainer.addEventListener('scroll', () => {
+    elements.messagesList.appendChild(li);
+    elements.messagesList.addEventListener('scroll', () => {
       const el = elements.messagesContainer;
       if (!isBelowHalf(el)) {
         elements.scrollToBottomBtn.classList.add('show');
