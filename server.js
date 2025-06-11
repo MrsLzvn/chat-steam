@@ -81,7 +81,7 @@ passport.use(new SteamStrategy({
   try {
     const steamId = profile.id;
     const personaname = profile.displayName;
-    const avatar = profile.photos[0].value;
+    const avatar = profile._json.avatarfull;
     const profileurl = profile._json.profileurl;
 
     console.log(`🟢 Авторизация: ${personaname} (${steamId})`);
