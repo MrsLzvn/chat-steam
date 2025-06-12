@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (steamId === steamUser.steamId) return;
 
         try {
-          const response = await fetch(/api/is-friend/$,{steamId});
+          const response = await fetch(`/api/is-friend/${steamId}`);
           const { isFriend } = await response.json();
           showContextMenu(e.clientX, e.clientY, steamId, isFriend);
         } catch (err) {
