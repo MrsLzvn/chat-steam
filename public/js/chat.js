@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (elements.steamUserInfo) {
         elements.steamUserInfo.innerHTML = `
           <p>Вы вошли как: <strong>${steamUser.personaname}</strong></p>
-          <img src="${steamUser.avatar}" alt="Аватар" class="user-avatar">
+          <img src="${steamUser.avatarfull}" alt="Аватар" class="user-avatar">
         `;
       }
 
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
           .then(friend => {
             if (elements.chatTitle) elements.chatTitle.innerText = `💬 Чат с ${friend.personaname}`;
             if (elements.friendInfo) elements.friendInfo.style.display = 'block';
-            if (elements.friendAvatar) elements.friendAvatar.src = friend.avatar || '/images/default-avatar.png';
+            if (elements.friendAvatar) elements.friendAvatar.src = friend.avatarfull || '/images/default-avatar.png';
             if (elements.friendName) elements.friendName.textContent = friend.personaname;
             if (elements.friendProfileLink) elements.friendProfileLink.href = `/profile/${friendId}`;
           })
