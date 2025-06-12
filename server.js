@@ -81,7 +81,8 @@ passport.use(new SteamStrategy({
   try {
     const steamId = profile.id;
     const personaname = profile.displayName;
-    const avatar = profile._json.avatarfull;
+    const avatar = profile.photos[0].value;
+    const avatarfull = profile._json.avatarfull;
     const profileurl = profile._json.profileurl;
 
     console.log(`🟢 Авторизация: ${personaname} (${steamId})`);
@@ -93,7 +94,7 @@ passport.use(new SteamStrategy({
 
     let user = await User.findOneAndUpdate(
       { steamId: steamId },
-      { personaname, avatar, profileurl },
+      { personaname, avatar, avatarfull, profileurl },
       { upsert: true, new: true }
     );
 
